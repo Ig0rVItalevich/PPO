@@ -5,13 +5,15 @@
 #include <iostream>
 #include <string>
 
+#include <pqxx/pqxx>
+
 class InterfaceGradeRepo
 {
 public:
-	InterfaceGradeRepo();
+	InterfaceGradeRepo(){};
 	~InterfaceGradeRepo() = default;
 
-	void addGrade(int value, std::string date, int user_id, int product_id);
+	int addGrade(int value, std::string date, int user_id, int product_id);
 	Grade getGrade(int id);
 	void deleteGrade(int id);
 	void updateGradeValue(int id, int value);
@@ -22,15 +24,15 @@ class GradeRepo : public InterfaceGradeRepo
 {
 private:
 	std::shared_ptr<pqxx::connection> connection;
-	std::shared_ptr<pqxx::work> txn;
+	std::shared_ptr<pqxx::nontransaction> txn;
 
 public:
 	explicit GradeRepo()
 		: connection(new pqxx::connection("postgresql://postgres:qwerty123@localhost/ppo"))
-		, txn(new pqxx::work(*connection)){};
+		, txn(new pqxx::nontransaction(*connection)){};
 	~GradeRepo() = default;
 
-	void addGrade(int value, std::string date, int user_id, int product_id);
+	int addGrade(int value, std::string date, int user_id, int product_id);
 	Grade getGrade(int id);
 	void deleteGrade(int id);
 	void updateGradeValue(int id, int value);

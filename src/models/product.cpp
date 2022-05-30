@@ -32,3 +32,13 @@ Product::Product()
 }
 
 Product::~Product() { }
+
+int Product::getId()
+{
+    return this->id;
+}
+
+std::string Product::getTitle()
+{
+    return this->title;
+}

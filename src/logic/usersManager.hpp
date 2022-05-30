@@ -1,7 +1,7 @@
 #ifndef USERSMANAGER_H
 #define USERSMANAGER_H
 
-#include "../db/userRepo.hpp"
+#include "../bd/userRepo.hpp"
 #include "../models/user.hpp"
 
 class UserManager
@@ -11,9 +11,9 @@ private:
 
 public:
 	UserManager(UserRepo& repository);
-	~UserManager();
+	~UserManager() = default;
 
-	void addUser(std::string name,
+	int addUser(std::string name,
 				 std::string mail,
 				 std::string sex,
 				 std::string password,

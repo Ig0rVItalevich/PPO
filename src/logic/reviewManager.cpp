@@ -1,15 +1,13 @@
 #include "reviewManager.hpp"
 
-ReviewManager::ReviewManager(ReviewRepo& repository)
+ReviewManager::ReviewManager(ReviewRepo &repository)
 {
-	this->repository = repository;
+	this->repository = &repository;
 }
 
-~ReviewManager::ReviewManager() { }
-
-void ReviewManager::addReview(std::string content, std::string date, int user_id)
+int ReviewManager::addReview(std::string content, std::string date, int user_id, int product_id)
 {
-	this->repository->addReview(content, date, user_id);
+	return this->repository->addReview(content, date, user_id, product_id);
 }
 
 Review ReviewManager::getReview(int id)

@@ -1,10 +1,10 @@
 #include "reviewRepo.hpp"
 
-void ReviewRepo::addReview(std::string content, std::string date, int user_id, int product_id)
+int ReviewRepo::addReview(std::string content, std::string date, int user_id, int product_id)
 {
 	txn->exec(
-		"INSERT INTO grades (value, grade_date, user_id)
-              VALUES (" + txn->quote(value) + ", " + txn->quote(date) + ", " + txn->quote(user_id) + ");");
+		"INSERT INTO reviews (content, review_date, user_id) \
+              VALUES (" + txn->quote(content) + ", " + txn->quote(date) + ", " + txn->quote(user_id) + ");");
 
 	int id = 0;
 	pqxx::result res{txn->exec(
@@ -15,10 +15,10 @@ void ReviewRepo::addReview(std::string content, std::string date, int user_id, i
 	}
 
 	txn->exec(
-		"INSERT INTO products_reviews (product_id, review_id)
-              VALUES (" + txn->quote(product_id) + ", " + txn->quote(id + 1) + ");");
+		"INSERT INTO products_reviews (product_id, review_id) \
+              VALUES (" + txn->quote(product_id) + ", " + txn->quote(id) + ");");
 
-	txn->commit();
+	return 0;
 }
 
 Review ReviewRepo::getReview(int id)
@@ -39,23 +39,19 @@ Review ReviewRepo::getReview(int id)
 void ReviewRepo::deleteReview(int id)
 {
 	txn->exec("DELETE FROM reviews WHERE review_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }
 
 void ReviewRepo::updateReviewContent(int id, std::string content)
 {
 	txn->exec("UPDATE reviews SET content  = " + txn->quote(content) +
 			  "WHERE review_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }
 
 std::vector<Review> ReviewRepo::getReviewsByProduct(int productId)
 {
 	std::vector<Review> reviews;
 	pqxx::result res{
-		txn->exec("SELECT review_id, content, review_date, user_id FROM grades JOIN products_reviews "
+		txn->exec("SELECT review_id, content, review_date, user_id FROM grades JOIN products_reviews " \
 				  "USING(review_id) WHERE product_id = " +
 				  txn->quote(productId) + ";")};
 

@@ -18,7 +18,7 @@ public:
 				 std::string sex,
 				 std::string password,
 				 std::string birth_date,
-				 std::string adress,
+				 std::string address,
 				 int permissions);
 	int getUserId(std::string mail);
 	User getUser(int id);
@@ -34,20 +34,20 @@ class UserRepo : public InterfaceUserRepo
 {
 private:
 	std::shared_ptr<pqxx::connection> connection;
-	std::shared_ptr<pqxx::work> txn;
+	std::shared_ptr<pqxx::nontransaction> txn;
 
 public:
 	explicit UserRepo()
 		: connection(new pqxx::connection("postgresql://postgres:qwerty123@localhost/ppo"))
-		, txn(new pqxx::work(*connection)){};
+		, txn(new pqxx::nontransaction(*connection)){};
 	~UserRepo() = default;
 
-	void addUser(std::string name,
+	int addUser(std::string name,
 				 std::string mail,
 				 std::string sex,
 				 std::string password,
 				 std::string birth_date,
-				 std::string adress,
+				 std::string address,
 				 int permissions);
 	int getUserId(std::string mail);
 	User getUser(int id);

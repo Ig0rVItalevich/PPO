@@ -27,6 +27,8 @@ public:
 			int grade);
 	Product();
 	~Product();
+	int getId();
+	std::string getTitle();
 };
 
 #endif // PRODUCT_H

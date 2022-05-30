@@ -2,16 +2,19 @@
 #define ORDERREPO_H
 
 #include "../models/order.hpp"
+#include "../models/product.hpp"
 #include <iostream>
 #include <string>
+
+#include <pqxx/pqxx>
 
 class InterfaceOrderRepo
 {
 public:
-	InterfaceOrderRepo();
+	InterfaceOrderRepo(){};
 	~InterfaceOrderRepo() = default;
 
-	void addOrder(std::string comment,
+	int addOrder(std::string comment,
 				  std::string status,
 				  std::string date,
 				  int user_id,
@@ -27,19 +30,19 @@ class OrderRepo : public InterfaceOrderRepo
 {
 private:
 	std::shared_ptr<pqxx::connection> connection;
-	std::shared_ptr<pqxx::work> txn;
+	std::shared_ptr<pqxx::nontransaction> txn;
 
 public:
 	explicit OrderRepo()
 		: connection(new pqxx::connection("postgresql://postgres:qwerty123@localhost/ppo"))
-		, txn(new pqxx::work(*connection)){};
+		, txn(new pqxx::nontransaction(*connection)){};
 	~OrderRepo() = default;
 
-	void addOrder(std::string comment,
-				  std::string status,
-				  std::string date,
-				  int user_id,
-				  std::vector<Product> products);
+	int addOrder(std::string comment,
+				 std::string status,
+				 std::string date,
+				 int user_id,
+				 std::vector<Product> products);
 	Order getOrder(int id);
 	void deleteOrder(int id);
 	void updateOrderStatus(int id, std::string status);

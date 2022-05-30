@@ -5,19 +5,21 @@
 #include <iostream>
 #include <string>
 
+#include <pqxx/pqxx>
+
 class InterfaceProductRepo
 {
 public:
-	InterfaceProductRepo();
+	InterfaceProductRepo(){};
 	~InterfaceProductRepo() = default;
 
-	void addProduct(std::string title,
-					std::string category,
-					std::string content,
-					int count,
-					float cost,
-					std::string image_path,
-					int grade);
+	int addProduct(std::string title,
+				   std::string category,
+				   std::string content,
+				   int count,
+				   float cost,
+				   std::string image_path,
+				   int grade);
 	Product getProduct(int id);
 	void deleteProduct(int id);
 	void updateProductTitle(int id, std::string title);
@@ -33,30 +35,30 @@ class ProductRepo : public InterfaceProductRepo
 {
 private:
 	std::shared_ptr<pqxx::connection> connection;
-	std::shared_ptr<pqxx::work> txn;
+	std::shared_ptr<pqxx::nontransaction> txn;
 
 public:
 	explicit ProductRepo()
 		: connection(new pqxx::connection("postgresql://postgres:qwerty123@localhost/ppo"))
-		, txn(new pqxx::work(*connection)){};
+		, txn(new pqxx::nontransaction(*connection)){};
 	~ProductRepo() = default;
 
-	void addProduct(std::string title,
-					std::string category,
-					std::string content,
-					int count,
-					float cost,
-					std::string image_path,
-					int grade) override;
-	Product getProduct(int id) override;
-	void deleteProduct(int id) override;
-	void updateProductTitle(int id, std::string title) override;
-	void updateProductCategory(int id, std::string category) override;
-	void updateProductContent(int id, std::string content) override;
-	void updateProductCount(int id, int count) override;
-	void updateProductCost(int id, float cost) override;
-	void updateProductGrade(int id, int grade) override;
-	std::vector<Product> getProductsByOrder(int OrderId) override;
+	int addProduct(std::string title,
+				   std::string category,
+				   std::string content,
+				   int count,
+				   float cost,
+				   std::string image_path,
+				   int grade);
+	Product getProduct(int id);
+	void deleteProduct(int id);
+	void updateProductTitle(int id, std::string title);
+	void updateProductCategory(int id, std::string category);
+	void updateProductContent(int id, std::string content);
+	void updateProductCount(int id, int count);
+	void updateProductCost(int id, float cost);
+	void updateProductGrade(int id, int grade);
+	std::vector<Product> getProductsByOrder(int OrderId);
 };
 
 #endif // PRODUCTREPO_H

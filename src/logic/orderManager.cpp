@@ -1,19 +1,17 @@
 #include "orderManager.hpp"
 
-OrderManager::OrderManager(OrderRepo& repository)
+OrderManager::OrderManager(OrderRepo &repository)
 {
-	this->repository = repository;
+	this->repository = &repository;
 }
 
-~OrderManager::OrderManager() { }
-
-void OrderManager::addOrder(std::string comment,
+int OrderManager::addOrder(std::string comment,
 							std::string status,
 							std::string date,
 							int user_id,
 							std::vector<Product> products)
 {
-	this->repository->addOrder(comment, status, date, user_id, products);
+	return this->repository->addOrder(comment, status, date, user_id, products);
 }
 
 Order OrderManager::getOrder(int id)

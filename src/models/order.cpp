@@ -19,3 +19,13 @@ Order::Order()
 }
 
 Order::~Order() { }
+
+int Order::getId()
+{
+    return this->id;
+}
+
+std::string Order::getStatus()
+{
+    return this->status;
+}

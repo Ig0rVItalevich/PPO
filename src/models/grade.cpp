@@ -22,3 +22,8 @@ int Grade::getValue()
 {
 	return this->value;
 }
+
+int Grade::getId()
+{
+	return this->id;
+}

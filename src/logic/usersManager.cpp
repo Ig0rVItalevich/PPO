@@ -1,13 +1,11 @@
 #include "usersManager.hpp"
 
-UserManager::UserManager(UserRepo& repository)
+UserManager::UserManager(UserRepo &repository)
 {
-	this->repository = repository;
+	this->repository = &repository;
 }
 
-~UserManager::UserManager() { }
-
-void UserManager::addUser(std::string name,
+int UserManager::addUser(std::string name,
 						  std::string mail,
 						  std::string sex,
 						  std::string password,
@@ -15,10 +13,10 @@ void UserManager::addUser(std::string name,
 						  std::string address,
 						  int permissions)
 {
-	this->repository->addUser(name, mail, sex, password, birth_date, address, permissions)
+	return this->repository->addUser(name, mail, sex, password, birth_date, address, permissions);
 }
 
-int UserManager::getUserId(std::string mail);
+int UserManager::getUserId(std::string mail)
 {
 	int id = this->repository->getUserId(mail);
 

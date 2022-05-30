@@ -1,15 +1,13 @@
 #include "gradeManager.hpp"
 
-GradeManager::GradeManager(GradeRepo& repository)
+GradeManager::GradeManager(GradeRepo &repository)
 {
-	this->repository = repository;
+	this->repository = &repository;
 }
 
-~GradeManager::GradeManager() { }
-
-void ReviewManager::addGrade(int value, std::string date, int user_id)
+int GradeManager::addGrade(int value, std::string date, int user_id, int product_id)
 {
-	this->repository->addGrade(value, date, user_id);
+	return this->repository->addGrade(value, date, user_id, product_id);
 }
 
 Grade GradeManager::getGrade(int id)

@@ -16,6 +16,8 @@ public:
 	Review(int id, std::string content, std::string date, int user_id);
 	Review();
 	~Review();
+	int getId();
+	std::string getContent();
 };
 
 #endif // REVIEW_H

@@ -1,9 +1,9 @@
 #include "gradeRepo.hpp"
 
-void GradeRepo::addGrade(int value, std::string date, int user_id, int product_id)
+int GradeRepo::addGrade(int value, std::string date, int user_id, int product_id)
 {
 	txn->exec(
-		"INSERT INTO grades (value, grade_date, user_id)
+		"INSERT INTO grades (value, grade_date, user_id)\
               VALUES (" + txn->quote(value) + ", " + txn->quote(date) + ", " + txn->quote(user_id) + ");");
 
 	int id = 0;
@@ -15,10 +15,10 @@ void GradeRepo::addGrade(int value, std::string date, int user_id, int product_i
 	}
 
 	txn->exec(
-		"INSERT INTO products_grades (product_id, grade_id)
-              VALUES (" + txn->quote(product_id) + ", " + txn->quote(id + 1) + ");");
+		"INSERT INTO products_grades (product_id, grade_id)\
+              VALUES (" + txn->quote(product_id) + ", " + txn->quote(id) + ");");
 
-	txn->commit();
+	return 0;
 }
 
 Grade GradeRepo::getGrade(int id)
@@ -38,16 +38,12 @@ Grade GradeRepo::getGrade(int id)
 void GradeRepo::deleteGrade(int id)
 {
 	txn->exec("DELETE FROM grades WHERE grade_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }
 
 void GradeRepo::updateGradeValue(int id, int value)
 {
 	txn->exec("UPDATE grades SET value  = " + txn->quote(value) +
 			  "WHERE grade_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }
 
 std::vector<Grade> GradeRepo::getGradesByProduct(int productId)

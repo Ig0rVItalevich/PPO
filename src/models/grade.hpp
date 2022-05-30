@@ -17,6 +17,7 @@ public:
 	Grade();
 	~Grade();
 	int getValue();
+	int getId();
 };
 
 #endif // GRADE_H

@@ -1,31 +1,31 @@
 #include "userRepo.hpp"
 
-void UserRepo::addUser(std::string name,
+int UserRepo::addUser(std::string name,
 					   std::string mail,
 					   std::string sex,
 					   std::string password,
 					   std::string birth_date,
-					   std::string adress,
+					   std::string address,
 					   int permissions)
 {
 	txn->exec(
-		"INSERT INTO users (user_name, mail, birth_date, sex, adress, permissions, user_password)\
+		"INSERT INTO users (user_name, mail, birth_date, sex, address, permissions, user_password)\
               VALUES (" +
 		txn->quote(name) + ", " + txn->quote(mail) + ", " + txn->quote(birth_date) + ", " +
-		txn->quote(sex) + ", " + txn->quote(adress) + ", " + txn->quote(permissions) + ", " +
+		txn->quote(sex) + ", " + txn->quote(address) + ", " + txn->quote(permissions) + ", " +
 		txn->quote(password) + ");");
 
-	txn->commit();
+	return 0;
 }
 
 int UserRepo::getUserId(std::string mail)
 {
 	int id = 0;
-	pqxx::result res{txn->exec("SELECT id FROM users WHERE mail = " + txn->quote(mail) + ";")};
+	pqxx::result res{txn->exec("SELECT user_id FROM users WHERE mail = " + txn->quote(mail) + ";")};
 
 	for(auto row : res)
 	{
-		id = atoi(row[0].c_str());
+		id = row[0].as<int>();
 	}
 
 	return id;
@@ -35,7 +35,7 @@ User UserRepo::getUser(int id)
 {
 	User user = User();
 	pqxx::result res{txn->exec(
-		"SELECT user_name, mail, sex, birth_date, adress, permissions FROM users WHERE user_id = " +
+		"SELECT user_name, mail, sex, birth_date, address, permissions FROM users WHERE user_id = " +
 		txn->quote(id) + ";")};
 
 	for(auto row : res)
@@ -46,7 +46,8 @@ User UserRepo::getUser(int id)
 					"",
 					row[3].as<std::string>(),
 					row[4].as<std::string>(),
-					atoi(row[5].c_str()));
+					row[5].as<int>(),
+					id);
 	}
 
 	return user;
@@ -55,15 +56,14 @@ User UserRepo::getUser(int id)
 void UserRepo::deleteUser(int id)
 {
 	txn->exec("DELETE FROM users WHERE user_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }
 
 bool UserRepo::existUser(std::string mail)
 {
 	bool flag = false;
 
-	pqxx::result res{txn->exec("SELECT (SELECT user_id FROM users WHERE mail = " + txn->quote(mail) + ") = 1;")};
+	pqxx::result res{
+		txn->exec("SELECT EXISTS(SELECT 1 FROM users WHERE mail = " + txn->quote(mail) + ");")};
 
 	for(auto row : res)
 	{
@@ -71,7 +71,7 @@ bool UserRepo::existUser(std::string mail)
 		{
 			flag = row[0].as<bool>();
 		}
-		catch (...)
+		catch(...)
 		{
 			flag = false;
 		}
@@ -84,30 +84,22 @@ void UserRepo::updateUserName(int id, std::string name)
 {
 	txn->exec("UPDATE users SET user_name  = " + txn->quote(name) +
 			  "WHERE user_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }
 
 void UserRepo::updateUserMail(int id, std::string mail)
 {
 	txn->exec("UPDATE users SET mail  = " + txn->quote(mail) + "WHERE user_id = " + txn->quote(id) +
 			  ";");
-
-	txn->commit();
 }
 
 void UserRepo::updateUserPassword(int id, std::string password)
 {
 	txn->exec("UPDATE users SET user_password  = " + txn->quote(password) +
 			  "WHERE user_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }
 
 void UserRepo::updateUserAddress(int id, std::string address)
 {
-	txn->exec("UPDATE users SET address  = " + txn->quote(adress) +
+	txn->exec("UPDATE users SET address  = " + txn->quote(address) +
 			  "WHERE user_id = " + txn->quote(id) + ";");
-
-	txn->commit();
 }

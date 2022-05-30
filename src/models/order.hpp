@@ -17,6 +17,8 @@ public:
 	Order(int id, std::string comment, std::string status, std::string date, int user_id);
 	Order();
 	~Order();
+	int getId();
+	std::string getStatus();
 };
 
 #endif // ORDER_H

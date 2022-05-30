@@ -2,20 +2,18 @@
 
 ProductManager::ProductManager(ProductRepo& repository)
 {
-	this->repository = repository;
+	this->repository = &repository;
 }
 
-~ProductManager::ProductManager() { }
-
-void ProductManager::addProduct(std::string title,
-								std::string category,
-								std::string content,
-								int count,
-								float cost,
-								std::string image_path,
-								int grade)
+int ProductManager::addProduct(std::string title,
+							   std::string category,
+							   std::string content,
+							   int count,
+							   float cost,
+							   std::string image_path,
+							   int grade)
 {
-	this->repository->addProduct(title, category, content, count, cost, image_path, grade);
+	return this->repository->addProduct(title, category, content, count, cost, image_path, grade);
 }
 
 Product ProductManager::getProduct(int id)
@@ -55,14 +53,14 @@ void ProductManager::updateProductCost(int id, float cost)
 	this->repository->updateProductCost(id, cost);
 }
 
-void ProductManager::updateProductGrade(int id, int grade = 10 * *5)
+void ProductManager::updateProductGrade(int id, int grade)
 {
-	if(grade = 10 * *5)
+	if(grade == 100000)
 	{
 		GradeRepo gradeRepo = GradeRepo();
-		std::vector<Grade> grades = gradeRepo->getGradesByProduct(id);
+		std::vector<Grade> grades = gradeRepo.getGradesByProduct(id);
 
-		res_grade = 0;
+		int res_grade = 0;
 		for(Grade grade : grades)
 		{
 			res_grade += grade.getValue();

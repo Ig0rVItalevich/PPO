@@ -1,9 +1,9 @@
 #ifndef ORDERMANAGER_H
 #define ORDERMANAGER_H
 
-#include "../db/orderRepo.hpp"
+#include "../bd/orderRepo.hpp"
 #include "../models/order.hpp"
-#include "..models/product.hpp"
+#include "../models/product.hpp"
 
 #include <vector>
 
@@ -14,9 +14,9 @@ private:
 
 public:
 	OrderManager(OrderRepo& repository);
-	~OrderManager();
+	~OrderManager() = default;
 
-	void addOrder(std::string comment,
+	int addOrder(std::string comment,
 				  std::string status,
 				  std::string date,
 				  int user_id,

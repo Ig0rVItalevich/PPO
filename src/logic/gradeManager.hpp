@@ -1,7 +1,7 @@
 #ifndef GRADEMANAGER_H
 #define GRADEMANAGER_H
 
-#include "../db/gradeRepo.hpp"
+#include "../bd/gradeRepo.hpp"
 #include "../models/grade.hpp"
 #include <vector>
 
@@ -12,9 +12,9 @@ private:
 
 public:
 	GradeManager(GradeRepo& repository);
-	~GradeManager();
+	~GradeManager() = default;
 
-	void addGrade(int value, std::string date, int user_id);
+	int addGrade(int value, std::string date, int user_id, int product_id);
 	Grade getGrade(int id);
 	void deleteGrade(int id);
 	void updateGradeValue(int id, int value);

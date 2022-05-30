@@ -1,7 +1,7 @@
 #ifndef REVIEWMANAGER_H
 #define REVIEWMANAGER_H
 
-#include "../db/reviewRepo.hpp"
+#include "../bd/reviewRepo.hpp"
 #include "../models/review.hpp"
 #include <vector>
 
@@ -12,9 +12,9 @@ private:
 
 public:
 	ReviewManager(ReviewRepo& repository);
-	~ReviewManager();
+	~ReviewManager() = default;
 
-	void addReview(std::string content, std::string date, int user_id);
+	int addReview(std::string content, std::string date, int user_id, int product_id);
 	Review getReview(int id);
 	void deleteReview(int id);
 	void updateReviewContent(int id, std::string content);

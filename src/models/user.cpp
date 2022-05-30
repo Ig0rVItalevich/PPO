@@ -5,7 +5,7 @@ User::User(std::string name,
 		   std::string sex,
 		   std::string password,
 		   std::string birth_date,
-		   std::string adress,
+		   std::string address,
 		   int permissions,
 		   int id = 0)
 {
@@ -14,7 +14,7 @@ User::User(std::string name,
     this->mail = mail;
     this->sex = sex;
     this->birth_date = birth_date;
-    this->adress = adress;
+    this->address = address;
 	this->password = password;
 	this->permissions = permissions;
 }
@@ -26,7 +26,7 @@ User::User()
     this->mail = "";
     this->sex = "";
     this->birth_date = "";
-    this->adress = "";
+    this->address = "";
 	this->password = "";
 	this->permissions = 0;
 }
@@ -46,4 +46,9 @@ int User::getId()
 std::string User::getMail()
 {
 	return this->mail;
+}
+
+std::string User::getName()
+{
+	return this->name;
 }
