@@ -1,0 +1,42 @@
+[
+    {
+        "order_id": 29,
+        "product_id": 11
+    },
+    {
+        "order_id": 21,
+        "product_id": 17
+    },
+    {
+        "order_id": 29,
+        "product_id": 14
+    },
+    {
+        "order_id": 22,
+        "product_id": 16
+    },
+    {
+        "order_id": 16,
+        "product_id": 15
+    },
+    {
+        "order_id": 16,
+        "product_id": 20
+    },
+    {
+        "order_id": 19,
+        "product_id": 18
+    },
+    {
+        "order_id": 38,
+        "product_id": 2
+    },
+    {
+        "order_id": 24,
+        "product_id": 18
+    },
+    {
+        "order_id": 5,
+        "product_id": 12
+    }
+]

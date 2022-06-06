@@ -2,9 +2,9 @@ CREATE TABLE "users" (
   "user_id" SERIAL PRIMARY KEY,
   "user_name" varchar(100) UNIQUE NOT NULL,
   "birth_date" date,
-  "address" varchar(50),
-  "mail" varchar(50),
-  "user_password" varchar(20) NOT NULL,
+  "address" varchar(100),
+  "mail" varchar(60),
+  "user_password" varchar(50) NOT NULL,
   "sex" varchar(10),
   "permissions" int
 );
@@ -12,17 +12,18 @@ CREATE TABLE "users" (
 CREATE TABLE "products" (
   "product_id" SERIAL PRIMARY KEY,
   "title" varchar(100),
-  "category" varchar(20),
+  "category" varchar(100),
   "content" text,
   "count" int,
   "cost" int,
-  "image_path" varchar(100) UNIQUE NOT NULL
+  "image_path" varchar(100) UNIQUE NOT NULL,
+  "grade" int,
 );
 
 CREATE TABLE "orders" (
   "order_id" SERIAL PRIMARY KEY,
   "order_date" date,
-  "status" varchar(20),
+  "status" varchar(50),
   "comment" varchar(100),
   "user_id" int
 );
@@ -36,7 +37,7 @@ CREATE TABLE "grades" (
 
 CREATE TABLE "reviews" (
   "review_id" SERIAL PRIMARY KEY,
-  "content" varchar(50),
+  "content" varchar(100),
   "review_date" date,
   "user_id" int
 );

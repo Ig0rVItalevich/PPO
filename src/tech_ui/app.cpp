@@ -81,6 +81,12 @@ void App::processRequest()
 		case 17:
             gradePres->getGradesByProduct();
 			break;
+		case 18:
+            productPres->getProductsByCategory();
+			break;
+		case 19:
+            productPres->getAllProducts();
+			break;
 		default:
 			std::cout << "Неверный номер";
 			break;

@@ -29,6 +29,8 @@ public:
 	void updateProductCost(int id, float cost);
 	void updateProductGrade(int id, int grade);
 	std::vector<Product> getProductsByOrder(int OrderId);
+	std::vector<Product> getProductsByCategory(std::string category);
+	std::vector<Product> getAllProducts();
 };
 
 class ProductRepo : public InterfaceProductRepo
@@ -59,6 +61,8 @@ public:
 	void updateProductCost(int id, float cost);
 	void updateProductGrade(int id, int grade);
 	std::vector<Product> getProductsByOrder(int OrderId);
+	std::vector<Product> getProductsByCategory(std::string category);
+	std::vector<Product> getAllProducts();
 };
 
 #endif // PRODUCTREPO_H

@@ -91,3 +91,39 @@ void ProductPresenter::getProductsByOrder()
 		}
 	}
 }
+
+void ProductPresenter::getProductsByCategory()
+{
+	std::string category = "";
+	std::cout << "Введите категорию: ";
+	std::cin >> category;
+
+	std::vector<Product> products = manager->getProductsByCategory(category);
+	if(!products.size())
+	{
+		std::cout << "Продукты отсутствуют." << std::endl;
+	}
+	else
+	{
+		for(Product product : products)
+		{
+			std::cout << product.toString() << std::endl;
+		}
+	}
+}
+
+void ProductPresenter::getAllProducts()
+{
+	std::vector<Product> products = manager->getAllProducts();
+	if(!products.size())
+	{
+		std::cout << "Продукты отсутствуют." << std::endl;
+	}
+	else
+	{
+		for(Product product : products)
+		{
+			std::cout << product.toString() << std::endl;
+		}
+	}
+}

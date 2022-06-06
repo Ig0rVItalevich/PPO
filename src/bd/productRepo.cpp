@@ -121,3 +121,49 @@ std::vector<Product> ProductRepo::getProductsByOrder(int OrderId)
 
 	return products;
 }
+
+std::vector<Product> ProductRepo::getProductsByCategory(std::string category)
+{
+	std::vector<Product> products;
+	pqxx::result res{
+		txn->exec("SELECT product_id, title, category, content, count, cost, image_path, grade "\
+				  "FROM products WHERE category = " + txn->quote(category) + ";")};
+
+	for(auto row : res)
+	{
+		Product product = Product(row[0].as<int>(),
+								  row[1].as<std::string>(),
+								  row[2].as<std::string>(),
+								  row[3].as<std::string>(),
+								  row[4].as<int>(),
+								  row[5].as<float>(),
+								  row[6].as<std::string>(),
+								  row[7].as<int>());
+		products.push_back(product);
+	}
+
+	return products;
+}
+
+std::vector<Product> ProductRepo::getAllProducts()
+{
+	std::vector<Product> products;
+	pqxx::result res{
+		txn->exec("SELECT product_id, title, category, content, count, cost, image_path, grade "\
+				  "FROM products;")};
+
+	for(auto row : res)
+	{
+		Product product = Product(row[0].as<int>(),
+								  row[1].as<std::string>(),
+								  row[2].as<std::string>(),
+								  row[3].as<std::string>(),
+								  row[4].as<int>(),
+								  row[5].as<float>(),
+								  row[6].as<std::string>(),
+								  row[7].as<int>());
+		products.push_back(product);
+	}
+
+	return products;
+}

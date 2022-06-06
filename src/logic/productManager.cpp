@@ -80,3 +80,17 @@ std::vector<Product> ProductManager::getProductsByOrder(int OrderId)
 
 	return products;
 }
+
+std::vector<Product> ProductManager::getProductsByCategory(std::string category)
+{
+	std::vector<Product> products = this->repository->getProductsByCategory(category);
+
+	return products;
+}
+
+std::vector<Product> ProductManager::getAllProducts()
+{
+	std::vector<Product> products = this->repository->getAllProducts();
+
+	return products;
+}

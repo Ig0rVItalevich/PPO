@@ -32,6 +32,8 @@ public:
 	void updateProductCost(int id, float cost);
 	void updateProductGrade(int id, int grade = 100000);
 	std::vector<Product> getProductsByOrder(int OrderId);
+	std::vector<Product> getProductsByCategory(std::string category);
+	std::vector<Product> getAllProducts();
 };
 
 #endif // PRODUCTMANAGER_H

@@ -21,6 +21,8 @@ public:
     void deleteProduct();
     void getProduct();
     void getProductsByOrder();
+	void getProductsByCategory();
+	void getAllProducts();
 };
 
 #endif // PRODUCTPRESENTER_H

@@ -1,0 +1,42 @@
+[
+    {
+        "product_id": 20,
+        "grade_id": 58
+    },
+    {
+        "product_id": 10,
+        "grade_id": 44
+    },
+    {
+        "product_id": 9,
+        "grade_id": 56
+    },
+    {
+        "product_id": 14,
+        "grade_id": 60
+    },
+    {
+        "product_id": 4,
+        "grade_id": 18
+    },
+    {
+        "product_id": 2,
+        "grade_id": 36
+    },
+    {
+        "product_id": 3,
+        "grade_id": 38
+    },
+    {
+        "product_id": 5,
+        "grade_id": 60
+    },
+    {
+        "product_id": 20,
+        "grade_id": 24
+    },
+    {
+        "product_id": 3,
+        "grade_id": 13
+    }
+]
