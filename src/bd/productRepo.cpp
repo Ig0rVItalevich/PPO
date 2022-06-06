@@ -8,11 +8,19 @@ int ProductRepo::addProduct(std::string title,
 							std::string image_path,
 							int grade)
 {
-	txn->exec("INSERT INTO products(title, category, content, count, cost, image_path, grade) \
+	try
+	{
+		txn->exec("INSERT INTO products(title, category, content, count, cost, image_path, grade) \
               VALUES (" +
-			  txn->quote(title) + ", " + txn->quote(category) + ", " + txn->quote(content) + ", " +
-			  txn->quote(count) + ", " + txn->quote(cost) + ", " + txn->quote(image_path) + ", " +
-			  txn->quote(grade) + ");");
+				  txn->quote(title) + ", " + txn->quote(category) + ", " + txn->quote(content) +
+				  ", " + txn->quote(count) + ", " + txn->quote(cost) + ", " +
+				  txn->quote(image_path) + ", " + txn->quote(grade) + ");");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 
 	return 0;
 }
@@ -39,9 +47,19 @@ Product ProductRepo::getProduct(int id)
 	return product;
 }
 
-void ProductRepo::deleteProduct(int id)
+int ProductRepo::deleteProduct(int id)
 {
-	txn->exec("DELETE FROM products WHERE product_id = " + txn->quote(id) + ";");
+	try
+	{
+		txn->exec("DELETE FROM products WHERE product_id = " + txn->quote(id) + ";");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
+	return 0;
 }
 
 void ProductRepo::updateProductTitle(int id, std::string title)
@@ -84,7 +102,7 @@ std::vector<Product> ProductRepo::getProductsByOrder(int OrderId)
 {
 	std::vector<Product> products;
 	pqxx::result res{
-		txn->exec("SELECT product_id, title, category, content, count, cost, image_path, grade "
+		txn->exec("SELECT product_id, title, category, content, count, cost, image_path, grade "\
 				  "FROM products JOIN orders_products USING(product_id) WHERE order_id = " +
 				  txn->quote(OrderId) + ";")};
 

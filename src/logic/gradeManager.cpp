@@ -1,6 +1,6 @@
 #include "gradeManager.hpp"
 
-GradeManager::GradeManager(GradeRepo &repository)
+GradeManager::GradeManager(GradeRepo& repository)
 {
 	this->repository = &repository;
 }
@@ -17,9 +17,9 @@ Grade GradeManager::getGrade(int id)
 	return grade;
 }
 
-void GradeManager::deleteGrade(int id)
+int GradeManager::deleteGrade(int id)
 {
-	this->repository->deleteGrade(id);
+	return this->repository->deleteGrade(id);
 }
 
 void GradeManager::updateGradeValue(int id, int value)

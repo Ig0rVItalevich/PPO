@@ -1,17 +1,17 @@
 #include "usersManager.hpp"
 
-UserManager::UserManager(UserRepo &repository)
+UserManager::UserManager(UserRepo& repository)
 {
 	this->repository = &repository;
 }
 
 int UserManager::addUser(std::string name,
-						  std::string mail,
-						  std::string sex,
-						  std::string password,
-						  std::string birth_date,
-						  std::string address,
-						  int permissions)
+						 std::string mail,
+						 std::string sex,
+						 std::string password,
+						 std::string birth_date,
+						 std::string address,
+						 int permissions)
 {
 	return this->repository->addUser(name, mail, sex, password, birth_date, address, permissions);
 }
@@ -30,9 +30,9 @@ User UserManager::getUser(int id)
 	return user;
 }
 
-void UserManager::deleteUser(int id)
+int UserManager::deleteUser(int id)
 {
-	this->repository->deleteUser(id);
+	return this->repository->deleteUser(id);
 }
 
 bool UserManager::existUser(std::string mail)

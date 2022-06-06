@@ -27,3 +27,11 @@ int Grade::getId()
 {
 	return this->id;
 }
+
+std::string Grade::toString()
+{
+	std::string result =
+		std::to_string(this->value) + " " + this->date + " " + std::to_string(this->user_id);
+
+	return result;
+}

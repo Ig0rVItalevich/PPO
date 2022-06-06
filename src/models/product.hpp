@@ -29,6 +29,7 @@ public:
 	~Product();
 	int getId();
 	std::string getTitle();
+	std::string toString();
 };
 
 #endif // PRODUCT_H

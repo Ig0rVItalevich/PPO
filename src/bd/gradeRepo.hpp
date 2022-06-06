@@ -15,7 +15,7 @@ public:
 
 	int addGrade(int value, std::string date, int user_id, int product_id);
 	Grade getGrade(int id);
-	void deleteGrade(int id);
+	int deleteGrade(int id);
 	void updateGradeValue(int id, int value);
 	std::vector<Grade> getGradesByProduct(int productId);
 };
@@ -34,7 +34,7 @@ public:
 
 	int addGrade(int value, std::string date, int user_id, int product_id);
 	Grade getGrade(int id);
-	void deleteGrade(int id);
+	int deleteGrade(int id);
 	void updateGradeValue(int id, int value);
 	std::vector<Grade> getGradesByProduct(int productId);
 };

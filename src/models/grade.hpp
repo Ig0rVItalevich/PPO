@@ -18,6 +18,7 @@ public:
 	~Grade();
 	int getValue();
 	int getId();
+	std::string toString();
 };
 
 #endif // GRADE_H

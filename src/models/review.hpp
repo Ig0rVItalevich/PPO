@@ -18,6 +18,7 @@ public:
 	~Review();
 	int getId();
 	std::string getContent();
+	std::string toString();
 };
 
 #endif // REVIEW_H

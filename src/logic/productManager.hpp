@@ -24,7 +24,7 @@ public:
 				   std::string image_path,
 				   int grade);
 	Product getProduct(int id);
-	void deleteProduct(int id);
+	int deleteProduct(int id);
 	void updateProductTitle(int id, std::string title);
 	void updateProductCategory(int id, std::string category);
 	void updateProductContent(int id, std::string content);

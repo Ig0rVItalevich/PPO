@@ -6,23 +6,31 @@ int OrderRepo::addOrder(std::string comment,
 						int user_id,
 						std::vector<Product> products)
 {
-	txn->exec("INSERT INTO orders (order_date, status, comment, user_id) \
-              VALUES (" +
-			  txn->quote(date) + ", " + txn->quote(status) + ", " + txn->quote(comment) + ", " +
-			  txn->quote(user_id) + ");");
-
-	int id = 0;
-	pqxx::result res{txn->exec("SELECT max(order_id) FROM orders;")};
-	for(auto row : res)
+	try
 	{
-		id = row[0].as<int>();
+		txn->exec("INSERT INTO orders (order_date, status, comment, user_id) \
+              VALUES (" +
+				  txn->quote(date) + ", " + txn->quote(status) + ", " + txn->quote(comment) + ", " +
+				  txn->quote(user_id) + ");");
+
+		int id = 0;
+		pqxx::result res{txn->exec("SELECT max(order_id) FROM orders;")};
+		for(auto row : res)
+		{
+			id = row[0].as<int>();
+		}
+
+		for(Product tmp : products)
+		{
+			txn->exec("INSERT INTO orders_products (order_id, product_id) \
+              VALUES (" +
+					  txn->quote(id) + ", " + txn->quote(tmp.getId()) + ");");
+		}
 	}
-
-	for(Product tmp : products)
+	catch(std::exception& e)
 	{
-		txn->exec("INSERT INTO orders_products (order_id, product_id) \
-              VALUES (" +
-				  txn->quote(id) + ", " + txn->quote(tmp.getId()) + ");");
+		std::cerr << e.what() << std::endl;
+		return 1;
 	}
 
 	return 0;
@@ -47,9 +55,19 @@ Order OrderRepo::getOrder(int id)
 	return order;
 }
 
-void OrderRepo::deleteOrder(int id)
+int OrderRepo::deleteOrder(int id)
 {
-	txn->exec("DELETE FROM orders WHERE order_id = " + txn->quote(id) + ";");
+	try
+	{
+		txn->exec("DELETE FROM orders WHERE order_id = " + txn->quote(id) + ";");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
+	return 0;
 }
 
 void OrderRepo::updateOrderStatus(int id, std::string status)

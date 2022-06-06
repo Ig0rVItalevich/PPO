@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-class User  
+class User
 {
 private:
 	int id;
@@ -31,6 +31,7 @@ public:
 	std::string getMail();
 	std::string getName();
 	int getId();
+	std::string toString();
 };
 
 #endif // USER_H

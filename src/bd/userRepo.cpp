@@ -1,19 +1,27 @@
 #include "userRepo.hpp"
 
 int UserRepo::addUser(std::string name,
-					   std::string mail,
-					   std::string sex,
-					   std::string password,
-					   std::string birth_date,
-					   std::string address,
-					   int permissions)
+					  std::string mail,
+					  std::string sex,
+					  std::string password,
+					  std::string birth_date,
+					  std::string address,
+					  int permissions)
 {
-	txn->exec(
-		"INSERT INTO users (user_name, mail, birth_date, sex, address, permissions, user_password)\
+	try
+	{
+		txn->exec(
+			"INSERT INTO users (user_name, mail, birth_date, sex, address, permissions, user_password)\
               VALUES (" +
-		txn->quote(name) + ", " + txn->quote(mail) + ", " + txn->quote(birth_date) + ", " +
-		txn->quote(sex) + ", " + txn->quote(address) + ", " + txn->quote(permissions) + ", " +
-		txn->quote(password) + ");");
+			txn->quote(name) + ", " + txn->quote(mail) + ", " + txn->quote(birth_date) + ", " +
+			txn->quote(sex) + ", " + txn->quote(address) + ", " + txn->quote(permissions) + ", " +
+			txn->quote(password) + ");");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 
 	return 0;
 }
@@ -34,9 +42,9 @@ int UserRepo::getUserId(std::string mail)
 User UserRepo::getUser(int id)
 {
 	User user = User();
-	pqxx::result res{txn->exec(
-		"SELECT user_name, mail, sex, birth_date, address, permissions FROM users WHERE user_id = " +
-		txn->quote(id) + ";")};
+	pqxx::result res{txn->exec("SELECT user_name, mail, sex, birth_date, address, permissions FROM "
+							   "users WHERE user_id = " +
+							   txn->quote(id) + ";")};
 
 	for(auto row : res)
 	{
@@ -53,9 +61,19 @@ User UserRepo::getUser(int id)
 	return user;
 }
 
-void UserRepo::deleteUser(int id)
+int UserRepo::deleteUser(int id)
 {
-	txn->exec("DELETE FROM users WHERE user_id = " + txn->quote(id) + ";");
+	try
+	{
+		txn->exec("DELETE FROM users WHERE user_id = " + txn->quote(id) + ";");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
+	return 0;
 }
 
 bool UserRepo::existUser(std::string mail)

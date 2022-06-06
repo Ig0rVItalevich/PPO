@@ -23,9 +23,9 @@ Product ProductManager::getProduct(int id)
 	return product;
 }
 
-void ProductManager::deleteProduct(int id)
+int ProductManager::deleteProduct(int id)
 {
-	this->repository->deleteProduct(id);
+	return this->repository->deleteProduct(id);
 }
 
 void ProductManager::updateProductTitle(int id, std::string title)

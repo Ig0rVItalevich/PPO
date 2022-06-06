@@ -1,6 +1,6 @@
 #include "reviewManager.hpp"
 
-ReviewManager::ReviewManager(ReviewRepo &repository)
+ReviewManager::ReviewManager(ReviewRepo& repository)
 {
 	this->repository = &repository;
 }
@@ -17,9 +17,9 @@ Review ReviewManager::getReview(int id)
 	return review;
 }
 
-void ReviewManager::deleteReview(int id)
+int ReviewManager::deleteReview(int id)
 {
-	this->repository->deleteReview(id);
+	return this->repository->deleteReview(id);
 }
 
 void ReviewManager::updateReviewContent(int id, std::string content)

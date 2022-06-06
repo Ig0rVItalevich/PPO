@@ -9,7 +9,7 @@ class Order
 private:
 	int id;
 	std::string comment;
-    std::string status;
+	std::string status;
 	std::string date;
 	int user_id;
 
@@ -19,6 +19,7 @@ public:
 	~Order();
 	int getId();
 	std::string getStatus();
+	std::string toString();
 };
 
 #endif // ORDER_H

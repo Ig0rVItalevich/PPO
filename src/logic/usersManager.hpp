@@ -14,15 +14,15 @@ public:
 	~UserManager() = default;
 
 	int addUser(std::string name,
-				 std::string mail,
-				 std::string sex,
-				 std::string password,
-				 std::string birth_date,
-				 std::string address,
-				 int permissions);
+				std::string mail,
+				std::string sex,
+				std::string password,
+				std::string birth_date,
+				std::string address,
+				int permissions);
 	int getUserId(std::string mail);
 	User getUser(int id);
-	void deleteUser(int id);
+	int deleteUser(int id);
 	bool existUser(std::string mail);
 	void updateUserName(int id, std::string name);
 	void updateUserMail(int id, std::string mail);

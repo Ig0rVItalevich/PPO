@@ -2,21 +2,29 @@
 
 int ReviewRepo::addReview(std::string content, std::string date, int user_id, int product_id)
 {
-	txn->exec(
-		"INSERT INTO reviews (content, review_date, user_id) \
-              VALUES (" + txn->quote(content) + ", " + txn->quote(date) + ", " + txn->quote(user_id) + ");");
-
-	int id = 0;
-	pqxx::result res{txn->exec(
-		"SELECT max(review_id) FROM reviews;")};
-	for(auto row : res)
+	try
 	{
-		id = row[0].as<int>();
-	}
+		txn->exec("INSERT INTO reviews (content, review_date, user_id) \
+              VALUES (" +
+				  txn->quote(content) + ", " + txn->quote(date) + ", " + txn->quote(user_id) +
+				  ");");
 
-	txn->exec(
-		"INSERT INTO products_reviews (product_id, review_id) \
-              VALUES (" + txn->quote(product_id) + ", " + txn->quote(id) + ");");
+		int id = 0;
+		pqxx::result res{txn->exec("SELECT max(review_id) FROM reviews;")};
+		for(auto row : res)
+		{
+			id = row[0].as<int>();
+		}
+
+		txn->exec("INSERT INTO products_reviews (product_id, review_id) \
+              VALUES (" +
+				  txn->quote(product_id) + ", " + txn->quote(id) + ");");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 
 	return 0;
 }
@@ -36,9 +44,19 @@ Review ReviewRepo::getReview(int id)
 	return review;
 }
 
-void ReviewRepo::deleteReview(int id)
+int ReviewRepo::deleteReview(int id)
 {
-	txn->exec("DELETE FROM reviews WHERE review_id = " + txn->quote(id) + ";");
+	try
+	{
+		txn->exec("DELETE FROM reviews WHERE review_id = " + txn->quote(id) + ";");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
+	return 0;
 }
 
 void ReviewRepo::updateReviewContent(int id, std::string content)
@@ -50,15 +68,15 @@ void ReviewRepo::updateReviewContent(int id, std::string content)
 std::vector<Review> ReviewRepo::getReviewsByProduct(int productId)
 {
 	std::vector<Review> reviews;
-	pqxx::result res{
-		txn->exec("SELECT review_id, content, review_date, user_id FROM grades JOIN products_reviews " \
-				  "USING(review_id) WHERE product_id = " +
-				  txn->quote(productId) + ";")};
+	pqxx::result res{txn->exec(
+		"SELECT review_id, content, review_date, user_id FROM reviews JOIN products_reviews "
+		"USING(review_id) WHERE product_id = " +
+		txn->quote(productId) + ";")};
 
 	for(auto row : res)
 	{
-		Review review =
-			Review(row[0].as<int>(), row[1].as<std::string>(), row[2].as<std::string>(), row[3].as<int>());
+		Review review = Review(
+			row[0].as<int>(), row[1].as<std::string>(), row[2].as<std::string>(), row[3].as<int>());
 		reviews.push_back(review);
 	}
 

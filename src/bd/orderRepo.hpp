@@ -15,12 +15,12 @@ public:
 	~InterfaceOrderRepo() = default;
 
 	int addOrder(std::string comment,
-				  std::string status,
-				  std::string date,
-				  int user_id,
-				  std::vector<Product> products);
+				 std::string status,
+				 std::string date,
+				 int user_id,
+				 std::vector<Product> products);
 	Order getOrder(int id);
-	void deleteOrder(int id);
+	int deleteOrder(int id);
 	void updateOrderStatus(int id, std::string status);
 	void updateOrderProducts(int id, std::vector<Product> products);
 	std::vector<Order> getOrdersByUser(int userId);
@@ -44,7 +44,7 @@ public:
 				 int user_id,
 				 std::vector<Product> products);
 	Order getOrder(int id);
-	void deleteOrder(int id);
+	int deleteOrder(int id);
 	void updateOrderStatus(int id, std::string status);
 	void updateOrderProducts(int id, std::vector<Product> products);
 	std::vector<Order> getOrdersByUser(int userId);

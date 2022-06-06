@@ -2,21 +2,28 @@
 
 int GradeRepo::addGrade(int value, std::string date, int user_id, int product_id)
 {
-	txn->exec(
-		"INSERT INTO grades (value, grade_date, user_id)\
-              VALUES (" + txn->quote(value) + ", " + txn->quote(date) + ", " + txn->quote(user_id) + ");");
-
-	int id = 0;
-	pqxx::result res{txn->exec(
-		"SELECT max(grade_id) FROM grades;")};
-	for(auto row : res)
+	try
 	{
-		id = row[0].as<int>();
-	}
+		txn->exec("INSERT INTO grades (value, grade_date, user_id) \
+              VALUES (" +
+				  txn->quote(value) + ", " + txn->quote(date) + ", " + txn->quote(user_id) + ");");
 
-	txn->exec(
-		"INSERT INTO products_grades (product_id, grade_id)\
-              VALUES (" + txn->quote(product_id) + ", " + txn->quote(id) + ");");
+		int id = 0;
+		pqxx::result res{txn->exec("SELECT max(grade_id) FROM grades;")};
+		for(auto row : res)
+		{
+			id = row[0].as<int>();
+		}
+
+		txn->exec("INSERT INTO products_grades (product_id, grade_id) \
+              VALUES (" +
+				  txn->quote(product_id) + ", " + txn->quote(id) + ");");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
 
 	return 0;
 }
@@ -35,9 +42,19 @@ Grade GradeRepo::getGrade(int id)
 	return grade;
 }
 
-void GradeRepo::deleteGrade(int id)
+int GradeRepo::deleteGrade(int id)
 {
-	txn->exec("DELETE FROM grades WHERE grade_id = " + txn->quote(id) + ";");
+	try
+	{
+		txn->exec("DELETE FROM grades WHERE grade_id = " + txn->quote(id) + ";");
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
+	return 0;
 }
 
 void GradeRepo::updateGradeValue(int id, int value)
