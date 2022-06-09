@@ -1,6 +1,7 @@
 #ifndef PRODUCTMANAGER_H
 #define PRODUCTMANAGER_H
 
+#include "../logging/easylogging++.h"
 #include "../bd/gradeRepo.hpp"
 #include "../bd/productRepo.hpp"
 #include "../models/product.hpp"
@@ -34,6 +35,7 @@ public:
 	std::vector<Product> getProductsByOrder(int OrderId);
 	std::vector<Product> getProductsByCategory(std::string category);
 	std::vector<Product> getAllProducts();
+	std::vector<Product> getProductsByGrade(int grade);
 };
 
 #endif // PRODUCTMANAGER_H

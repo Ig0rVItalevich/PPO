@@ -2,6 +2,7 @@
 
 int ReviewRepo::addReview(std::string content, std::string date, int user_id, int product_id)
 {
+	LOG(DEBUG) << "Вызов addReview Database";
 	try
 	{
 		txn->exec("INSERT INTO reviews (content, review_date, user_id) \
@@ -22,7 +23,7 @@ int ReviewRepo::addReview(std::string content, std::string date, int user_id, in
 	}
 	catch(std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		LOG(ERROR) << "Ошибка addReview Database" << e.what();
 		return 1;
 	}
 
@@ -31,6 +32,7 @@ int ReviewRepo::addReview(std::string content, std::string date, int user_id, in
 
 Review ReviewRepo::getReview(int id)
 {
+	LOG(DEBUG) << "Вызов getReview Database";
 	Review review = Review();
 	pqxx::result res{txn->exec(
 		"SELECT content, review_date, user_id FROM reviews WHERE review_id = " + txn->quote(id) +
@@ -46,13 +48,14 @@ Review ReviewRepo::getReview(int id)
 
 int ReviewRepo::deleteReview(int id)
 {
+	LOG(DEBUG) << "Вызов deleteReview Database";
 	try
 	{
 		txn->exec("DELETE FROM reviews WHERE review_id = " + txn->quote(id) + ";");
 	}
 	catch(std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		LOG(ERROR) << "Ошибка deleteReview Database" << e.what();
 		return 1;
 	}
 
@@ -61,12 +64,14 @@ int ReviewRepo::deleteReview(int id)
 
 void ReviewRepo::updateReviewContent(int id, std::string content)
 {
+	LOG(DEBUG) << "Вызов updateReviewContent Database";
 	txn->exec("UPDATE reviews SET content  = " + txn->quote(content) +
 			  "WHERE review_id = " + txn->quote(id) + ";");
 }
 
 std::vector<Review> ReviewRepo::getReviewsByProduct(int productId)
 {
+	LOG(DEBUG) << "Вызов getReviewsByProduct Database";
 	std::vector<Review> reviews;
 	pqxx::result res{txn->exec(
 		"SELECT review_id, content, review_date, user_id FROM reviews JOIN products_reviews "

@@ -6,6 +6,7 @@ int OrderRepo::addOrder(std::string comment,
 						int user_id,
 						std::vector<Product> products)
 {
+	LOG(DEBUG) << "Вызов addOrder Database";
 	try
 	{
 		txn->exec("INSERT INTO orders (order_date, status, comment, user_id) \
@@ -29,7 +30,7 @@ int OrderRepo::addOrder(std::string comment,
 	}
 	catch(std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		LOG(ERROR) << "Ошибка addOrder Database" << e.what();
 		return 1;
 	}
 
@@ -38,6 +39,7 @@ int OrderRepo::addOrder(std::string comment,
 
 Order OrderRepo::getOrder(int id)
 {
+	LOG(DEBUG) << "Вызов getOrder Database";
 	Order order = Order();
 	pqxx::result res{
 		txn->exec("SELECT order_date, status, comment, user_id FROM orders WHERE order_id = " +
@@ -57,13 +59,14 @@ Order OrderRepo::getOrder(int id)
 
 int OrderRepo::deleteOrder(int id)
 {
+	LOG(DEBUG) << "Вызов deleteOrder Database";
 	try
 	{
 		txn->exec("DELETE FROM orders WHERE order_id = " + txn->quote(id) + ";");
 	}
 	catch(std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		LOG(ERROR) << "Ошибка deleteOrder Database" << e.what();
 		return 1;
 	}
 
@@ -72,12 +75,14 @@ int OrderRepo::deleteOrder(int id)
 
 void OrderRepo::updateOrderStatus(int id, std::string status)
 {
+	LOG(DEBUG) << "Вызов updateOrderStatus Database";
 	txn->exec("UPDATE orders SET status  = " + txn->quote(status) +
 			  "WHERE order_id = " + txn->quote(id) + ";");
 }
 
 void OrderRepo::updateOrderProducts(int id, std::vector<Product> products)
 {
+	LOG(DEBUG) << "Вызов updateOrderProducts Database";
 	txn->exec("DELETE FROM orders_products WHERE order_id = " + txn->quote(id) + ";");
 
 	for(Product tmp : products)
@@ -90,6 +95,7 @@ void OrderRepo::updateOrderProducts(int id, std::vector<Product> products)
 
 std::vector<Order> OrderRepo::getOrdersByUser(int userId)
 {
+	LOG(DEBUG) << "Вызов getOrdersByUser Database";
 	std::vector<Order> orders;
 	pqxx::result res{txn->exec(
 		"SELECT order_id, order_date, status, comment, user_id FROM orders WHERE user_id = " +

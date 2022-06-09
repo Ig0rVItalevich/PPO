@@ -1,6 +1,7 @@
 #ifndef ORDERREPO_H
 #define ORDERREPO_H
 
+#include "../logging/easylogging++.h"
 #include "../models/order.hpp"
 #include "../models/product.hpp"
 #include <iostream>

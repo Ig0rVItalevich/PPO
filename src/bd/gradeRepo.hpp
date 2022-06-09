@@ -1,6 +1,7 @@
 #ifndef GRADEREPO_H
 #define GRADEREPO_H
 
+#include "../logging/easylogging++.h"
 #include "../models/grade.hpp"
 #include <iostream>
 #include <string>

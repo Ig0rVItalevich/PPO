@@ -2,6 +2,7 @@
 
 int GradeRepo::addGrade(int value, std::string date, int user_id, int product_id)
 {
+	LOG(DEBUG) << "Вызов addGrade Database";
 	try
 	{
 		txn->exec("INSERT INTO grades (value, grade_date, user_id) \
@@ -21,7 +22,7 @@ int GradeRepo::addGrade(int value, std::string date, int user_id, int product_id
 	}
 	catch(std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		LOG(ERROR) << "Ошибка addGrade Database" << e.what();
 		return 1;
 	}
 
@@ -30,6 +31,7 @@ int GradeRepo::addGrade(int value, std::string date, int user_id, int product_id
 
 Grade GradeRepo::getGrade(int id)
 {
+	LOG(DEBUG) << "Вызов getGrade Database";
 	Grade grade = Grade();
 	pqxx::result res{txn->exec(
 		"SELECT value, grade_date, user_id FROM grades WHERE grade_id = " + txn->quote(id) + ";")};
@@ -44,13 +46,14 @@ Grade GradeRepo::getGrade(int id)
 
 int GradeRepo::deleteGrade(int id)
 {
+	LOG(DEBUG) << "Вызов deleteGrade Database";
 	try
 	{
 		txn->exec("DELETE FROM grades WHERE grade_id = " + txn->quote(id) + ";");
 	}
 	catch(std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		LOG(ERROR) << "Ошибка deleteGrade Database" << e.what();
 		return 1;
 	}
 
@@ -59,12 +62,14 @@ int GradeRepo::deleteGrade(int id)
 
 void GradeRepo::updateGradeValue(int id, int value)
 {
+	LOG(DEBUG) << "Вызов updateGradeValue Database";
 	txn->exec("UPDATE grades SET value  = " + txn->quote(value) +
 			  "WHERE grade_id = " + txn->quote(id) + ";");
 }
 
 std::vector<Grade> GradeRepo::getGradesByProduct(int productId)
 {
+	LOG(DEBUG) << "Вызов getGradesByProduct Database";
 	std::vector<Grade> grades;
 	pqxx::result res{
 		txn->exec("SELECT grade_id, value, grade_date, user_id FROM grades JOIN products_grades "

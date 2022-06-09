@@ -21,6 +21,13 @@
 #include "reviewPresenter.hpp"
 #include "userPresenter.hpp"
 
+#include "../logging/easylogging++.h"
+
+#ifndef INITIALIZE_EASYLOGGINGPP
+#define INITIALIZE_EASYLOGGINGPP
+INITIALIZE_EASYLOGGINGPP
+#endif
+
 const std::string menu = "\
 0. Завершить программу\n\
 1. Добавить пользователя\n\
@@ -41,7 +48,14 @@ const std::string menu = "\
 16. Удалить оценку\n\
 17. Получить список оценок продукта\n\
 18. Получить список продуктов по выбранной категории\n\
-19. Получить список всех продуктов\n";
+19. Получить список всех продуктов\n\
+20. Получить продукты, с оценкой не ниже требуемой\n";
+
+class UserPresenter;
+class ProductPresenter;
+class OrderPresenter;
+class ReviewPresenter;
+class GradePresenter;
 
 class App
 {
@@ -62,6 +76,9 @@ public:
 
 	void printMenu();
 	void processRequest();
+	void addApp();
+	void printer(std::string str);
+	std::string scanner();
 };
 
 #endif

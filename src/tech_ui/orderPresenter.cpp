@@ -3,87 +3,103 @@
 OrderPresenter::OrderPresenter(OrderManager& manager)
 {
 	this->manager = &manager;
+	LOG(DEBUG) << "Создан OrderPresenter";
+}
+
+void OrderPresenter::addApp(App* application)
+{
+	LOG(DEBUG) << "Вызвано addApp Presenter";
+	this->application = application;
 }
 
 void OrderPresenter::addOrder()
 {
+	LOG(DEBUG) << "Вызвано addOrder Presenter";
 	std::string comment = "", status = "", date = "2022-06-06";
 	int user_id = 0;
 	std::vector<Product> products = {};
 
-	std::cout << "Введите комментарий к заказу: ";
-	std::cin >> comment;
-	std::cout << "Введите статус заказа: ";
-	std::cin >> status;
-	std::cout << "Введите user_id: ";
-	std::cin >> user_id;
+	this->application->printer("Введите комментарий к заказу: ");
+	comment = this->application->scanner();
+	this->application->printer("Введите статус заказа: ");
+	status = this->application->scanner();
+	this->application->printer("Введите user_id: ");
+	user_id = std::stoi(this->application->scanner());
 
 	if(manager->addOrder(comment, status, date, user_id, products))
 	{
-		std::cout << "Что-то пошло не так..." << std::endl;
+		LOG(ERROR) << "Ошибка addOrder Presenter";
+		this->application->printer("Что-то пошло не так...");
 	}
 	else
 	{
-		std::cout << "Операция прошла успешно." << std::endl;
+		this->application->printer("Операция прошла успешно.");
 	}
 }
 
 void OrderPresenter::deleteOrder()
 {
+	LOG(DEBUG) << "Вызвано deleteOrder Presenter";
 	int id = 0;
-	std::cout << "Введите order_id: ";
-	std::cin >> id;
+	this->application->printer("Введите order_id: ");
+	id = std::stoi(this->application->scanner());
 
 	if(manager->getOrder(id).getId() == 0)
 	{
-		std::cout << "Заказа с таким id не существует." << std::endl;
+		LOG(WARNING) << "Заказа с таким id не существует getOrder Presenter";
+		this->application->printer("Заказа с таким id не существует.");
 	}
 	else
 	{
 		if(manager->deleteOrder(id))
 		{
-			std::cout << "Что-то пошло не так..." << std::endl;
+			LOG(ERROR) << "Ошибка deleteOrder Presenter";
+			this->application->printer("Что-то пошло не так...");
 		}
 		else
 		{
-			std::cout << "Операция прошла успешно." << std::endl;
+			this->application->printer("Операция прошла успешно.");
 		}
 	}
 }
 
 void OrderPresenter::getOrder()
 {
+	LOG(DEBUG) << "Вызвано getOrder Presenter";
 	int id = 0;
-	std::cout << "Введите order_id: ";
-	std::cin >> id;
+	this->application->printer("Введите order_id: ");
+	id = std::stoi(this->application->scanner());
 
 	Order order = manager->getOrder(id);
 	if(order.getId() == 0)
 	{
-		std::cout << "Заказа с таким id не существует." << std::endl;
+		LOG(WARNING) << "Заказа с таким id не существует getOrder Presenter";
+		this->application->printer("Заказа с таким id не существует.");
 	}
 	else
 	{
-		std::cout << order.toString() << std::endl;
+		this->application->printer(order.toString());
 	}
 }
 
 void OrderPresenter::getOrdersByUser()
 {
+	LOG(DEBUG) << "Вызвано getOrdersByUser Presenter";
 	int id = 0;
-	std::cout << "Введите user_id: ";
-	std::cin >> id;
+	this->application->printer("Введите user_id: ");
+	id = std::stoi(this->application->scanner());
 
 	std::vector<Order> orders = manager->getOrdersByUser(id);
 	if(!orders.size())
 	{
-		std::cout << "Заказы отсутствуют." << std::endl;
+		LOG(WARNING) << "Заказы отсутствуют getOrdersByUser Presenter";
+		this->application->printer("Заказы отсутствуют.");
 	}
 	else
 	{
 		for(Order order : orders)
 		{
-			std::cout << order.toString() << std::endl;
+			this->application->printer(order.toString());
 		}
 	}
 }

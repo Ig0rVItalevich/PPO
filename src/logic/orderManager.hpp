@@ -1,6 +1,7 @@
 #ifndef ORDERMANAGER_H
 #define ORDERMANAGER_H
 
+#include "../logging/easylogging++.h"
 #include "../bd/orderRepo.hpp"
 #include "../models/order.hpp"
 #include "../models/product.hpp"

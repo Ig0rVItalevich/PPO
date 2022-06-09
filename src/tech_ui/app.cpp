@@ -11,15 +11,30 @@ App::App(UserManager& userManager,
 	this->orderPres = new OrderPresenter(orderManager);
 	this->reviewPres = new ReviewPresenter(reviewManager);
 	this->gradePres = new GradePresenter(gradeManager);
+
+	LOG(DEBUG) << "Создано Application";
+}
+
+void App::addApp()
+{
+	this->productPres->addApp(this);
+	this->userPres->addApp(this);
+	this->orderPres->addApp(this);
+	this->reviewPres->addApp(this);
+	this->gradePres->addApp(this);
+
+	LOG(DEBUG) << "Заполнение поля Application в Presenters";
 }
 
 void App::printMenu()
 {
+	LOG(DEBUG) << "Вызов printMenu Application";
 	std::cout << menu;
 }
 
 void App::processRequest()
 {
+	LOG(DEBUG) << "Вызов processRequest Application";
 	int position = -1;
 	while(position != 0)
 	{
@@ -87,9 +102,28 @@ void App::processRequest()
 		case 19:
             productPres->getAllProducts();
 			break;
+		case 20:
+            productPres->getProductsByGrade();
+			break;
 		default:
+			LOG(WARNING) << "Введено неверный номер действия Application";
 			std::cout << "Неверный номер";
 			break;
 		}
 	}
+}
+
+void App::printer(std::string str)
+{
+	LOG(DEBUG) << "Вызов printer Application";
+	std::cout<< str << std::endl;
+}
+
+std::string App::scanner()
+{
+	LOG(DEBUG) << "Вызов scanner Application";
+	std::string str = "";
+	std::cin >> str;
+
+	return str;
 }

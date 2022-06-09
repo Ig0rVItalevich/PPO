@@ -1,6 +1,7 @@
 #ifndef REVIEWMANAGER_H
 #define REVIEWMANAGER_H
 
+#include "../logging/easylogging++.h"
 #include "../bd/reviewRepo.hpp"
 #include "../models/review.hpp"
 #include <vector>

@@ -2,73 +2,87 @@
 
 UserPresenter::UserPresenter(UserManager& manager)
 {
+	LOG(DEBUG) << "Создан UserPresenter";
 	this->manager = &manager;
+}
+
+void UserPresenter::addApp(App* application)
+{
+	LOG(DEBUG) << "Вызвано addApp Presenter";
+	this->application = application;
 }
 
 void UserPresenter::addUser()
 {
+	LOG(DEBUG) << "Вызвано addUser Presenter";
 	std::string name = "", mail = "", sex = "", password = "", birth_date = "", address = "";
 	int permissions = 0;
 
-	std::cout << "Введите имя: ";
-	std::cin >> name;
-	std::cout << "Введите почту: ";
-	std::cin >> mail;
-	std::cout << "Введите пол: ";
-	std::cin >> sex;
-	std::cout << "Введите пароль: ";
-	std::cin >> password;
-	std::cout << "Введите дату рождения(гггг-мм-дд): ";
-	std::cin >> birth_date;
-	std::cout << "Введите адресс: ";
-	std::cin >> address;
+	this->application->printer("Введите имя: ");
+	name = this->application->scanner();
+	this->application->printer("Введите почту: ");
+	mail = this->application->scanner();
+	this->application->printer("Введите пол: ");
+	sex = this->application->scanner();
+	this->application->printer("Введите пароль: ");
+	password = this->application->scanner();
+	this->application->printer("Введите дату рождения(гггг-мм-дд): ");
+	birth_date = this->application->scanner();
+	this->application->printer("Введите адресс: ");
+	address = this->application->scanner();
 
 	if(manager->addUser(name, mail, sex, password, birth_date, address, permissions))
 	{
-		std::cout << "Что-то пошло не так..." << std::endl;
+		LOG(ERROR) << "Ошибка addUser Presenter";
+		this->application->printer("Что-то пошло не так...");
 	}
 	else
 	{
-		std::cout << "Операция прошла успешно." << std::endl;
+		this->application->printer("Операция прошла успешно.");
 	}
 }
 
 void UserPresenter::deleteUser()
 {
+	LOG(DEBUG) << "Вызвано deleteUser Presenter";
 	int id = 0;
-	std::cout << "Введите user_id: ";
-	std::cin >> id;
+	this->application->printer("Введите user_id: ");
+	id = std::stoi(this->application->scanner());
 
 	if(manager->getUser(id).getId() == 0)
 	{
-		std::cout << "Пользователя с таким id не существует." << std::endl;
+		LOG(WARNING) << "Пользователя с таким id не существует deleteUser Presenter";
+		this->application->printer("Пользователя с таким id не существует.");
 	}
 	else
 	{
 		if(manager->deleteUser(id))
 		{
-			std::cout << "Что-то пошло не так..." << std::endl;
+			LOG(ERROR) << "Ошибка deleteUser Presenter";
+			this->application->printer("Что-то пошло не так...");
 		}
 		else
 		{
-			std::cout << "Операция прошла успешно." << std::endl;
+			this->application->printer("Операция прошла успешно.");
 		}
 	}
 }
 
 void UserPresenter::getUser()
 {
+	LOG(DEBUG) << "Вызвано getUser Presenter";
 	int id = 0;
-	std::cout << "Введите user_id: ";
-	std::cin >> id;
+	this->application->printer("Введите user_id: ");
+	id = std::stoi(this->application->scanner());
 
 	User user = manager->getUser(id);
 	if(user.getId() == 0)
 	{
-		std::cout << "Пользователя с таким id не существует." << std::endl;
+		LOG(WARNING) << "Пользователя с таким id не существует getUser Presenter";
+		this->application->printer("Пользователя с таким id не существует.");
 	}
 	else
 	{
-		std::cout << user.toString() << std::endl;
+		this->application->printer(user.toString());
 	}
 }

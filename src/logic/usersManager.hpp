@@ -3,6 +3,7 @@
 
 #include "../bd/userRepo.hpp"
 #include "../models/user.hpp"
+#include "../logging/easylogging++.h"
 
 class UserManager
 {

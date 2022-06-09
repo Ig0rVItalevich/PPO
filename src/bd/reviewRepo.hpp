@@ -1,6 +1,7 @@
 #ifndef REVIEWREPO_H
 #define REVIEWREPO_H
 
+#include "../logging/easylogging++.h"
 #include "../models/review.hpp"
 #include <iostream>
 #include <string>

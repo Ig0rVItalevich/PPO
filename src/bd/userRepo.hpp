@@ -1,6 +1,7 @@
 #ifndef USERREPO_H
 #define USERREPO_H
 
+#include "../logging/easylogging++.h"
 #include "../models/user.hpp"
 #include <iostream>
 #include <string>

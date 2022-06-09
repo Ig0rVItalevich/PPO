@@ -1,6 +1,7 @@
 #ifndef PRODUCTREPO_H
 #define PRODUCTREPO_H
 
+#include "../logging/easylogging++.h"
 #include "../models/product.hpp"
 #include <iostream>
 #include <string>
@@ -31,6 +32,7 @@ public:
 	std::vector<Product> getProductsByOrder(int OrderId);
 	std::vector<Product> getProductsByCategory(std::string category);
 	std::vector<Product> getAllProducts();
+	std::vector<Product> getProductsByGrade(int grade);
 };
 
 class ProductRepo : public InterfaceProductRepo
@@ -63,6 +65,7 @@ public:
 	std::vector<Product> getProductsByOrder(int OrderId);
 	std::vector<Product> getProductsByCategory(std::string category);
 	std::vector<Product> getAllProducts();
+	std::vector<Product> getProductsByGrade(int grade);
 };
 
 #endif // PRODUCTREPO_H

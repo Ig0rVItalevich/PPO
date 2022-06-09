@@ -1,6 +1,7 @@
 #ifndef GRADEMANAGER_H
 #define GRADEMANAGER_H
 
+#include "../logging/easylogging++.h"
 #include "../bd/gradeRepo.hpp"
 #include "../models/grade.hpp"
 #include <vector>
