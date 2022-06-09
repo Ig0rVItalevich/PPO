@@ -28,8 +28,8 @@ private:
 	std::shared_ptr<pqxx::nontransaction> txn;
 
 public:
-	explicit ReviewRepo()
-		: connection(new pqxx::connection("postgresql://postgres:qwerty123@localhost/ppo"))
+	explicit ReviewRepo(std::string bd_str)
+		: connection(new pqxx::connection(bd_str))
 		, txn(new pqxx::nontransaction(*connection)){};
 	~ReviewRepo() = default;
 

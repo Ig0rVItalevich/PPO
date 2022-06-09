@@ -67,7 +67,7 @@ void ProductManager::updateProductGrade(int id, int grade)
 	LOG(DEBUG) << "Вызов updateProductGrade BusinessLogic";
 	if(grade == 100000)
 	{
-		GradeRepo gradeRepo = GradeRepo();
+		GradeRepo gradeRepo = GradeRepo("postgresql://postgres:qwerty123@localhost/ppo");
 		std::vector<Grade> grades = gradeRepo.getGradesByProduct(id);
 
 		int res_grade = 0;
